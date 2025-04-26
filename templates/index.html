@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deepfake Detection</title>
+  <style>
+    /* Soft Gradient Background */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      background: linear-gradient(45deg, #6e7dff, #ab8ee8, #f7a7ff);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+
+    /* Container Styles */
+    .upload-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .upload-box {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    label.upload-btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background: #4CAF50;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    label.upload-btn:hover {
+      background: #45a049;
+      transform: scale(1.1);
+    }
+
+    button.upload-btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background: #4CAF50;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+      border: none;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    button.upload-btn:hover {
+      background: #45a049;
+      transform: scale(1.1);
+    }
+
+    #preview {
+      margin-top: 20px;
+      display: none;
+    }
+
+    video {
+      max-width: 400px;
+      border: 2px solid limegreen;
+      border-radius: 12px;
+    }
+
+    /* Drag and Drop Zone Styling */
+    .drag-drop-area {
+      border: 3px dashed #4CAF50;
+      padding: 50px;
+      border-radius: 15px;
+      color: #4CAF50;
+      font-weight: bold;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    .drag-drop-area:hover {
+      background-color: rgba(76, 175, 80, 0.1);
+    }
+
+    .drag-drop-area p {
+      margin: 0;
+    }
+
+    .drag-drop-area input[type="file"] {
+      display: none;
+    }
+
+    h1 {
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Clouds -->
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
+  <div class="cloud cloud3"></div>
+  <div class="cloud cloud4"></div>
+
+  <div class="upload-container">
+    <div class="upload-box">
+      <h1>Upload your video</h1>
+      <form id="uploadForm" action="/" method="POST" enctype="multipart/form-data">
+        <!-- Drag-and-drop area -->
+        <div class="drag-drop-area" id="drop-area">
+          <p>Drag and drop your video here</p>
+          <p>or</p>
+          <label for="file" class="upload-btn">Choose a file</label>
+          <input type="file" name="file" id="file" accept="video/*">
+        </div>
+        <button type="submit" class="upload-btn">Upload</button>
+      </form>
+
+      <div id="preview">
+        <h3>Preview:</h3>
+        <video id="videoPreview" controls></video>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preview Video Script -->
+  <script>
+    const fileInput = document.getElementById('file');
+    const preview = document.getElementById('preview');
+    const video = document.getElementById('videoPreview');
+
+    fileInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        video.src = url;
+        preview.style.display = 'block';
+      }
+    });
+
+    // Drag-and-Drop functionality
+    const dropArea = document.getElementById('drop-area');
+
+    dropArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropArea.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
+    });
+
+    dropArea.addEventListener('dragleave', () => {
+      dropArea.style.backgroundColor = 'transparent';
+    });
+
+    dropArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropArea.style.backgroundColor = 'transparent';
+
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        video.src = url;
+        preview.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
+
+

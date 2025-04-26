@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Result - Deepfake Detection</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      background: linear-gradient(45deg, #6e7dff, #ab8ee8, #f7a7ff);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .result-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      color: white;
+      backdrop-filter: blur(10px);
+    }
+
+    .result-box {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      width: 80%;
+      max-width: 600px;
+    }
+
+    .video-container {
+      margin-bottom: 20px;
+    }
+
+    video {
+      max-width: 100%;
+      border: 2px solid limegreen;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .verdict {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      animation: fadeIn 2s forwards;
+      color: limegreen;
+    }
+
+    .verdict-fake {
+      color: red;
+    }
+
+    .confidence {
+      font-size: 18px;
+      color: #ddd;
+      margin-bottom: 30px;
+    }
+
+    .back-btn {
+      padding: 12px 25px;
+      background: #4CAF50;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      transition: background 0.3s ease, transform 0.3s ease;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: #45a049;
+      transform: scale(1.1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="result-container">
+    <div class="result-box">
+      <div class="video-container">
+        <h1>Deepfake Detection Result</h1>
+        <video controls>
+          <source src="{{ url_for('uploaded_file', filename=filename) }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+
+        {# Split verdict into label and confidence #}
+        {% set parts = verdict.split(' ') %}
+        {% set label = parts[0] %}
+        {% set confidence = verdict.split('(')[1].replace(')', '') %}
+
+        <div class="verdict {% if label == 'Fake' %}verdict-fake{% endif %}">
+          {{ 'Deepfake Detected' if label == 'Fake' else 'Real Video' }}
+        </div>
+        <div class="confidence">
+          Confidence: {{ confidence }}
+        </div>
+      </div>
+
+      <div>
+        <a href="/" class="back-btn">Back to Upload</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
