@@ -55,8 +55,8 @@ A powerful and accurate deepfake detection system using **ResNet18-based CNN** a
 The trained model is too large for GitHub.
 If you want access to the ResNet18 trained model (.pth file), fill out this short request form:
 
-### 👉 Request Trained Model (Google Form)
-After filling the form, the download link [(from Google Drive)](https://docs.google.com/forms/d/e/1FAIpQLSdj1ffzLdrTKga-41BciyToYhCLnjvNQ2VIlhAdrNdwbMPPyw/viewform?usp=header) will be shared with you via email.
+### 👉 Request Trained Model [(Google Form)](https://docs.google.com/forms/d/e/1FAIpQLSdj1ffzLdrTKga-41BciyToYhCLnjvNQ2VIlhAdrNdwbMPPyw/viewform?usp=header)
+After filling the form, the download link (from Google Drive) will be shared with you via email.
 
 ## 🛠 Tech Stack
 - Python 🐍
